@@ -16,47 +16,41 @@ public class 프린터_큐 {
 
             StringTokenizer nums = new StringTokenizer(br.readLine());
             Queue<Integer> q = new LinkedList<>();
+            PriorityQueue<Integer> ranks = new PriorityQueue<>(Collections.reverseOrder()); // 최대 힙으로 생성
 
-            // 큐에 숫자들을 넣어줌
-            for (int l = 0; l < len; l++) {
+            // 큐, 최대 힙에 숫자를 넣어줌
+            for (int i = 0; i < len; i++) {
                 int num = Integer.parseInt(nums.nextToken());
                 q.offer(num);
+                ranks.offer(num);
             }
 
-            while (true) {
-                int maxNum = 0;
-                int maxId = -1;
-                int cnt = 1;
+            int rank = 1;
+            while (!q.isEmpty() && !ranks.isEmpty()) {
+                // 정답을 찾을 때까지 반복
+                int num = q.poll();
 
-                // 매번 가장 큰 수를 찾음
-                for (int i = 0; i < q.size(); i++) {
-                    int n = q.poll();
-                    if (n > maxNum) {
-                        maxNum = n;
-                        maxId = i;
-                    }
-                    q.offer(n);
-                }
-
-                boolean flag = false;
-                for (int j = 0; j < q.size(); j++) {
-                    int num = q.poll();
-
-                    if (num != maxNum) {
-                        q.offer(num);
-                    } else {
-                        if (maxId == id) flag = true;
+                if (num == ranks.peek()) {
+                    // 가장 중요도가 높은 문서인 경우
+                    if (id == 0) {
+                        // 정답을 찾은 경우
+                        System.out.println(rank);
                         break;
                     }
+                    // 우선순위 큐에서도 제거
+                    ranks.poll();
+                    rank++;
                 }
 
-                if (flag) {
-                    System.out.println(cnt);
-                    break;
-                }
+                // 다시 맨 뒤에 삽입
+                q.offer(num);
 
-                id = q.size() - maxId;
-                cnt++;
+                // id값 갱신
+                id--;
+                if (id < 0) {
+                    // 맨 뒤로 이동하는 경우
+                    id = q.size() - 1;
+                }
             }
         }
     }
