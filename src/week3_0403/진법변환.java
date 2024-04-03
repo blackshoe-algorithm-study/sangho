@@ -12,21 +12,22 @@ public class 진법변환 {
         int B = Integer.parseInt(st.nextToken());
         br.close();
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N.length(); i++) {
+        int temp = 1; // B진수의 몇 승인지
+        int sum = 0; // 10진수의 값
+
+        // 맨 오른쪽부터 확인
+        for (int i = N.length() - 1; i >= 0; i--) {
             Character c = N.charAt(i);
 
             if (!Character.isDigit(c)) {
-                sb.append(c - 55);
+                sum += (c - 55) * temp;
             } else {
-                sb.append(c);
+                sum += (c - '0') * temp;
             }
+
+            temp *= B; // 1승씩 +
         }
 
-        String num = sb.toString();
-
-        int result = Integer.parseInt(num, B);
-
-        System.out.println(result);
+        System.out.println(sum);
     }
 }
