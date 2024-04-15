@@ -12,19 +12,21 @@ public class 소수의_연속합 {
 
         int result = 0;
         int left = 0;
-        int right = 1;
-        int interval = primeNums.get(left);
+        int right = 0;
+        int interval = 0;
 
         while (right < primeNums.size()) {
             interval += primeNums.get(right);
 
             if (interval > N) {
+                // 구간 합이 N 이하가 될 때까지 반복
                 while (left < right && interval > N) {
                     interval -= primeNums.get(left);
                     left++;
                 }
             }
 
+            // 경우의 수 + 1
             if (interval == N) {
                 result++;
             }
@@ -40,7 +42,7 @@ public class 소수의_연속합 {
         List<Integer> primeNums = new ArrayList<>();
         boolean[] check = new boolean[limit + 1];
 
-        for (int i = 2; i < (int) Math.sqrt(limit) + 1; i++) {
+        for (int i = 2; i <= (int) Math.sqrt(limit); i++) {
             int t = 2;
 
             while (i * t <= limit) {
@@ -52,7 +54,7 @@ public class 소수의_연속합 {
             }
         }
 
-        for (int i = 2; i < limit + 1; i++) {
+        for (int i = 2; i <= limit; i++) {
             // 소수만 추가
             if (!check[i]) {
                 primeNums.add(i);
