@@ -30,26 +30,29 @@ public class 나무_자르기 {
         int low = 0;
         int high = end;
         int cut = 0;
+        int answer = 0;
         while (low <= high) {
             cut = (low + high) / 2; // 절단기 높이 설정
 
             long sum = cutTree(trees, cut);
 
             if (sum == needTree) {
-                // 같은 경우 바로 return
-                return cut;
+                // 같은 경우 종료
+                answer = cut;
+                break;
             }
 
             if (sum > needTree) {
-                // 너무 많이 자름 -> cut을 올림
+                // 많이 자름 -> cut을 올림
+                answer = Math.max(answer, cut);
                 low = cut + 1;
             } else if (sum < needTree) {
-                // 너무 적게 자름 -> cut을 내림
+                // 적게 자름 -> cut을 내림
                 high = cut - 1;
             }
         }
 
-        return cut;
+        return answer;
     }
 
     private static long cutTree(int[] trees, int cut) {
@@ -57,7 +60,7 @@ public class 나무_자르기 {
 
         for (int tree : trees) {
             // 나무 자르기
-            if (tree - cut > 1) {
+            if (tree - cut > 0) {
                 // cut보다 나무가 높은 경우만
                 sum += tree - cut;
             }
