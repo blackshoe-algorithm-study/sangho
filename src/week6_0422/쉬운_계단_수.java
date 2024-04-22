@@ -9,7 +9,7 @@ public class 쉬운_계단_수 {
 
         int N = Integer.parseInt(br.readLine());
 
-        int[][] dp = new int[N + 1][10];
+        long[][] dp = new long[N + 1][10];
 
         // 첫 번째 자릿수 (=1의 자리)는 모두 1로 초기화
         for (int i = 0; i < 10; i++) {
@@ -31,17 +31,17 @@ public class 쉬운_계단_수 {
                 }
                 // 그 외는 본인 +- 1까지 가능
                 else {
-                    dp[i][j] = (dp[i - 1][j - 1] +  dp[i - 1][j + 1]) % MOD;
+                    dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j + 1]) % MOD;
                 }
             }
         }
 
         // 최종 값 계산
-        int result = 0;
+        long result = 0;
         for (int i = 1; i < 10; i++) {
             result += (dp[N][i] % MOD);
         }
 
-        System.out.println(result);
+        System.out.println(result % MOD);
     }
 }
