@@ -1,4 +1,4 @@
-package weekl12_0603;
+package week12_0603;
 
 import java.io.*;
 import java.util.*;
