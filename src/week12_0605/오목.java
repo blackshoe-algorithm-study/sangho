@@ -5,8 +5,8 @@ import java.util.*;
 
 public class 오목 {
     private static final int[][] board = new int[19][19];
-    private static final int[] dx = {1, 1, 1, 0};
-    private static final int[] dy = {-1, 0, 1, 1};
+    private static final int[] dx = {1, 1, 0, -1};
+    private static final int[] dy = {0, 1, 1, 1};
     private static boolean isClear;
 
     public static void main(String[] args) throws IOException {
@@ -38,7 +38,20 @@ public class 오목 {
                         dfs(color, i, j, dir, 1);
 
                         if (isClear) {
-                            return new Result(color, i + 1, j + 1);
+                            // 시작점의 직전 위치도 확인하여 육목 방지
+                            boolean isSix = true;
+                            int px = i - dx[dir];
+                            int py = j - dy[dir];
+                            if (px < 0 || px >= 19 || py < 0) {
+                                isSix = false;
+
+                            } else if (board[px][py] != color) {
+                                isSix = false;
+                            }
+
+                            if (!isSix) {
+                                return new Result(color, i + 1, j + 1);
+                            }
                         }
                     }
                 }
@@ -56,11 +69,13 @@ public class 오목 {
             // 육목이 아닌 경우
             if (cnt == 5 && board[nx][ny] != color) {
                 isClear = true;
-            }
-
-            if (board[nx][ny] == color) {
+            } else if (board[nx][ny] == color) {
                 dfs(color, nx, ny, dir, cnt + 1);
             }
+        }
+        // 5번째 바둑알이 바둑판의 끝에 위치한 경우
+        else if (cnt == 5) {
+            isClear = true;
         }
     }
 
