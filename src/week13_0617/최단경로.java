@@ -49,30 +49,40 @@ public class 최단경로 {
     }
 
     private static void dijkstra(int start) {
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int i = 0; i < graph.get(cur).size(); i++) {
-                Node node = graph.get(cur).get(i);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.offer(new Node(start, 0));
+
+        while (!pq.isEmpty()) {
+            Node curNode = pq.poll();
+            int cur = curNode.vertex;
+            int curDist = curNode.weight;
+
+            if (curDist > dist[cur]) continue;
+
+            for (Node node : graph.get(cur)) {
                 int next = node.vertex;
                 int weight = node.weight;
 
                 if (dist[cur] + weight < dist[next]) {
                     dist[next] = dist[cur] + weight;
-                    q.offer(next);
+                    pq.offer(new Node(next, dist[next]));
                 }
             }
         }
     }
 
-    static class Node {
+    static class Node implements Comparable<Node> {
         int vertex;
         int weight;
 
         Node(int vertex, int weight) {
             this.vertex = vertex;
             this.weight = weight;
+        }
+
+        @Override
+        public int compareTo(Node n) {
+            return Integer.compare(this.weight, n.weight);
         }
     }
 }
