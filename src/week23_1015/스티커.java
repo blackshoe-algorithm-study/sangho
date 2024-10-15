@@ -37,17 +37,9 @@ public class 스티커 {
 
         for (int i = 1; i < N; i++) {
             // 위
-            if (stickers[0][i] + stickers[1][i - 1] > stickers[0][i - 1]) {
-                stickers[0][i] = stickers[0][i] + stickers[1][i - 1];
-            } else {
-                stickers[0][i] = stickers[0][i - 1];
-            }
+            stickers[0][i] = Math.max(stickers[0][i] + stickers[1][i - 1], stickers[0][i - 1]);
             // 아래
-            if (stickers[1][i] + stickers[0][i - 1] > stickers[1][i - 1]) {
-                stickers[1][i] = stickers[1][i] + stickers[0][i - 1];
-            } else {
-                stickers[1][i] = stickers[1][i - 1];
-            }
+            stickers[1][i] = Math.max(stickers[1][i] + stickers[0][i - 1], stickers[1][i - 1]);
         }
 
         return Math.max(stickers[0][N - 1], stickers[1][N - 1]);
